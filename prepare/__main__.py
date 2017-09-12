@@ -158,8 +158,8 @@ def prepare_scripts(location, author):
 		prepare_problem_script(problem, location, author)
 
 def prepare_problem_dataset(problem, location):
-	if os.path.exists('datasets/rosalind_%s.txt' % problem['code']):
-		shutil.copy('datasets/rosalind_%s.txt' % problem['code'], '../datasets/')
+	if os.path.exists('../done/datasets/rosalind_%s.txt' % problem['code']):
+		shutil.copy('../done/datasets/rosalind_%s.txt' % problem['code'], '../datasets/')
 		return
 
 	print('Wating for a moment not to burden rosalind server...')
