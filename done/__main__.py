@@ -94,7 +94,8 @@ def test_single(location, code, verbose=False):
 	return myAnswer == answer
 
 def preserve_whitespaces(string):
-	return re.sub('\s', '&nbsp;', string)
+	s = re.sub('\s', '&nbsp;', string)
+	return s
 
 @ensure_at_done
 def update_readme(testResult):
@@ -102,7 +103,7 @@ def update_readme(testResult):
 	for location in LOCATIONS:
 		correctCount = testResult[location]['correctCount']
 		total = testResult[location]['total']
-		stat = '- %-30s %s [%3d/%3d Correct]' % (location, progress_bar(correctCount, total), correctCount, total)
+		stat = '%s|%s|[%3d/%3d Correct]' % (location, progress_bar(correctCount, total), correctCount, total)
 		status.append(preserve_whitespaces(stat))
 
 	status = '\n'.join(status)
