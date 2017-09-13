@@ -2,6 +2,8 @@
 Solve one rosalind problem per day.
 
 ## Status
+Location |   | # Solved
+:---:|:---:|:---:
 {status}
 
 ## Usage
