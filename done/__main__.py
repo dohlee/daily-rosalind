@@ -99,7 +99,7 @@ def update_readme(testResult):
 	for location in LOCATIONS:
 		correctCount = testResult[location]['correctCount']
 		total = testResult[location]['total']
-		stat = '%-30s %s [%3d/%3d Correct]' % (location, progress_bar(correctCount, total), correctCount, total)
+		stat = '- %-30s %s [%3d/%3d Correct]' % (location, progress_bar(correctCount, total), correctCount, total)
 		status.append(stat)
 
 	status = '\n'.join(status)
