@@ -93,6 +93,9 @@ def test_single(location, code, verbose=False):
 
 	return myAnswer == answer
 
+def preserve_whitespaces(string):
+	return re.sub('\s', '&nbsp;', string)
+
 @ensure_at_done
 def update_readme(testResult):
 	status = []
@@ -100,7 +103,7 @@ def update_readme(testResult):
 		correctCount = testResult[location]['correctCount']
 		total = testResult[location]['total']
 		stat = '- %-30s %s [%3d/%3d Correct]' % (location, progress_bar(correctCount, total), correctCount, total)
-		status.append(stat)
+		status.append(preserve_whitespaces(stat))
 
 	status = '\n'.join(status)
 
