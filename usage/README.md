@@ -17,8 +17,10 @@ Unfortunately, daily-rosalind project only allows **Python** solutions to be aut
 
 ## Note
 Automatic scoring system is not complete yet, since it just compares whether your answer and desired answer is identical. It cannot properly score when the order of answer is not relevant.
+
 The datasets used in scoring system of this project is rather simple, so be sure to check whether your algorithms work on big datasets given by Rosalind. (You might often need more efficient algorithm to get answer in 5 minutes) 
+
 Please use this project to efficiently manage your codes, and to motivate yourself!
 
 ## TODO
-[] Score order-irrelevant answers.
+- [ ] Score order-irrelevant answers.
