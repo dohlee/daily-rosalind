@@ -94,7 +94,7 @@ def test_single(location, code, verbose=False):
 	return myAnswer == answer
 
 def preserve_whitespaces(string):
-	s = re.sub('\s', '&nbsp;', string)
+	s = re.sub('\s', '&nbsp;&nbsp;', string)
 	return s
 
 @ensure_at_done
