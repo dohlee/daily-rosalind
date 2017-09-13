@@ -144,7 +144,7 @@ def prepare_problem_script(problem, location, author):
 			else:
 				ret = clip(p.get_text()).encode('ascii', 'ignore').decode('utf-8')
 
-	with open('template_code.py') as inFile:
+	with open('template_script.py') as inFile:
 		script = inFile.read().format(url=problem['url'], title=problem['title'], code=problem['code'], given=given, ret=ret, author=author)
 
 	with open('../scripts/%s/%s.py' % (location, problem['code']), 'w') as outFile:
@@ -168,7 +168,9 @@ def prepare_problem_dataset(problem, location):
 	res = requests.get('http://rosalind.info/problems/%s' % problem['code'], headers=HEADERS)
 	soup = BeautifulSoup(res.content, 'html.parser')
 
-	pres = soup.select('div.problem-statement > div.codehilite > pre')
+	h2 = soup.select('h2#sample-dataset')[0]
+	pres = [div.select('pre')[0] for div in h2.find_next_siblings('div') if len(div.select('pre')) > 0]
+
 	if len(pres) == 0:
 		sampleInput = ''
 	else:

@@ -1,8 +1,8 @@
 # daily-rosalind
 Solve one rosalind problem per day.
 
-# Status
+## Status
 {status}
 
-# Usage
+## Usage
 Please see [here](./usage).

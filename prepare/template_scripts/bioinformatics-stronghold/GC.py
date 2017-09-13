@@ -30,3 +30,7 @@ if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_GC.txt') as inFile:
         pass
+
+    # Print output
+    with open('../../answers/rosalind_GC_out.txt', 'w') as outFile:
+        pass

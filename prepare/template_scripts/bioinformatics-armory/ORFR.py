@@ -27,3 +27,7 @@ if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_ORFR.txt') as inFile:
         pass
+
+    # Print output
+    with open('../../answers/rosalind_ORFR_out.txt', 'w') as outFile:
+        pass

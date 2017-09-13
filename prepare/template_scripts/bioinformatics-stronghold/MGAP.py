@@ -28,3 +28,7 @@ if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_MGAP.txt') as inFile:
         pass
+
+    # Print output
+    with open('../../answers/rosalind_MGAP_out.txt', 'w') as outFile:
+        pass

@@ -29,3 +29,7 @@ if __name__ == '__main__':
     with open('../../datasets/rosalind_SSEQ.txt') as inFile:
         pass
 
+    # Print output
+    with open('../../answers/rosalind_SSEQ_out.txt', 'w') as outFile:
+        pass
+

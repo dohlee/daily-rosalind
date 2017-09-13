@@ -27,3 +27,7 @@ if __name__ == '__main__':
     with open('../../datasets/rosalind_INI4.txt') as inFile:
         pass
 
+    # Print output
+    with open('../../answers/rosalind_INI4_out.txt', 'w') as outFile:
+        pass
+

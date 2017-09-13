@@ -29,3 +29,7 @@ if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_NWCK.txt') as inFile:
         pass
+
+    # Print output
+    with open('../../answers/rosalind_NWCK_out.txt', 'w') as outFile:
+        pass
