@@ -14,7 +14,7 @@
 ##################################################
 
 # Your imports here
-
+from collections import Counter
 
 # Your codes here
 
@@ -26,9 +26,10 @@
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_INI6.txt') as inFile:
-        pass
+        counter = Counter(inFile.readline().strip().split())
 
     # Print output
     with open('../../answers/rosalind_INI6_out.txt', 'w') as outFile:
-        pass
+        for key, value in counter.items():
+            print(key, value, file=outFile)
 

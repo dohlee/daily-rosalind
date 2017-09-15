@@ -26,9 +26,9 @@
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_INI2.txt') as inFile:
-        pass
+        a, b = map(int, inFile.readline().strip().split())
 
     # Print output
     with open('../../answers/rosalind_INI2_out.txt', 'w') as outFile:
-        pass
+        print(a**2 + b**2, file=outFile)
 

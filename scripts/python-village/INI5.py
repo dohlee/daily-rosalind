@@ -25,9 +25,9 @@
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_INI5.txt') as inFile:
-        pass
+        evenNumberedLines = [line for i, line in enumerate(inFile.readlines()) if i % 2 == 1]
 
     # Print output
     with open('../../answers/rosalind_INI5_out.txt', 'w') as outFile:
-        pass
+        print(''.join(evenNumberedLines), file=outFile)
 
