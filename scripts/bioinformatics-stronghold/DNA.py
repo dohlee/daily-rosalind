@@ -13,7 +13,7 @@
 ##################################################
 
 # Your imports here
-
+from collections import Counter
 
 # Your codes here
 
@@ -25,9 +25,9 @@
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_DNA.txt') as inFile:
-        pass
+        counter = Counter(inFile.readline().strip())
 
     # Print output
     with open('../../answers/rosalind_DNA_out.txt', 'w') as outFile:
-        pass
+        print(counter['A'], counter['C'], counter['G'], counter['T'], file=outFile)
 
