@@ -15,18 +15,16 @@
 
 
 # Your codes here
-
-
-
-
-
+COMPLEMENT_TABLE = str.maketrans('ATGC', 'TACG')
+def reverse_complement(string):
+	return string[::-1].translate(COMPLEMENT_TABLE)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_REVC.txt') as inFile:
-        pass
+        string = inFile.readline().strip()
 
     # Print output
     with open('../../answers/rosalind_REVC_out.txt', 'w') as outFile:
-        pass
+        print(reverse_complement(string), file=outFile)
 

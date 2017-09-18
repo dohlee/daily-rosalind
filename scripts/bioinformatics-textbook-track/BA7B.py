@@ -23,11 +23,6 @@ def limb_length(distanceMatrix, n, j):
 	return min(distanceMatrix[i][j] + distanceMatrix[k][j] - distanceMatrix[i][k] \
 		for i in range(n) for k in range(n) if i != j and k != j) // 2
 
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA7B.txt') as inFile:
