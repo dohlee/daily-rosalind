@@ -78,7 +78,7 @@ def insert_new_node(graph, src, dst, distance, visited, nodeName):
 
 def additive_phylogeny(distanceMatrix, n):
     """Find the simple tree fitting an n x n additive distance matrix D."""
-    return additive_phylogeny_helper(distanceMatrix, n, nodeName=len(distanceMatrix))
+    return additive_phylogeny_helper(distanceMatrix, n, nodeName=2 * len(distanceMatrix) - 3)
 
 def additive_phylogeny_helper(distanceMatrix, n, nodeName):
     """Helper for additive_phylogeny which will be recursively called."""
@@ -103,7 +103,7 @@ def additive_phylogeny_helper(distanceMatrix, n, nodeName):
                 break
     
     # recursively call the function to get smaller graph first.
-    graph = additive_phylogeny_helper(distanceMatrix, n-1, nodeName=nodeName+1)
+    graph = additive_phylogeny_helper(distanceMatrix, n-1, nodeName=nodeName-1)
 
     # insert new node on the path (src, ..., dst).
     visited = [False] * (2 * len(distanceMatrix))
@@ -112,7 +112,7 @@ def additive_phylogeny_helper(distanceMatrix, n, nodeName):
     # add leaf n-1 back to new node by creating a limb of length limbLength.
     graph[n-1] = [(nodeName, limbLength)]
     graph[nodeName].append((n-1, limbLength))
-    
+
     return graph
 
 

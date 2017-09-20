@@ -56,7 +56,7 @@ def test():
         testResult[location] = dict()
         
         scripts = os.listdir()
-        codes = [script[:-3] for script in scripts]
+        codes = [script[:-3] for script in scripts if script.endswith('.py')]
 
         correctCount, total = 0, len(codes)
         for curr, (code, script) in enumerate(zip(codes, scripts), 1):
@@ -77,7 +77,7 @@ def test():
     return testResult
 
 def squash_consecutive_whitespaces(string):
-    # Substitute all runs of whitespace with a tab
+    """Substitute all runs of whitespace with a tab."""
     return re.sub(r'\s+', '\t', string)
 
 def identity_test(myAnswerFile, answerFile):
