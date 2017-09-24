@@ -18,18 +18,25 @@
 
 
 # Your codes here
+def majority_element(arr):
+	"""Find majority element through Boyer-Moore majority voting algorithm.
+	Return the majority element if exists, otherwise -1.
+	"""
+	candidate, count = arr[0], 0
+	for v in arr:
+		count += [-1, 1][v == candidate]
+		if count == 0:
+			candidate, count = v, 1 
 
-
-
-
-
+	return [-1, candidate][arr.count(candidate) > len(arr) / 2.0]
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_MAJ.txt') as inFile:
-        pass
+        arrayCount, size = map(int, inFile.readline().split())
+        arrays = [list(map(int, line.split())) for line in inFile.readlines()]
 
     # Print output
     with open('../../answers/rosalind_MAJ_out.txt', 'w') as outFile:
-        pass
+        print(' '.join(map(str, [majority_element(arr) for arr in arrays])), file=outFile)
 
