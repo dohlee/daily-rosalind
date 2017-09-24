@@ -16,12 +16,6 @@
 
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     from collections import Counter
     # Load the data.
@@ -36,4 +30,3 @@ if __name__ == '__main__':
     # Print output
     with open('../../answers/rosalind_DEG_out.txt', 'w') as outFile:
         print(' '.join(map(str, [counter[v] for v in range(1, vertexCount+1)])), file=outFile)
-
