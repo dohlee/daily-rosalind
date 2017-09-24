@@ -23,11 +23,17 @@
 
 
 if __name__ == '__main__':
+    from collections import Counter
     # Load the data.
     with open('../../datasets/rosalind_DEG.txt') as inFile:
-        pass
+        counter = Counter() 
+        vertexCount, edgeCount = map(int, inFile.readline().split())
+        for line in inFile.readlines():
+            u, v = map(int, line.split())
+            counter[u] += 1
+            counter[v] += 1
 
     # Print output
     with open('../../answers/rosalind_DEG_out.txt', 'w') as outFile:
-        pass
+        print(' '.join(map(str, [counter[v] for v in range(1, vertexCount+1)])), file=outFile)
 
