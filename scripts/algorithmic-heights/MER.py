@@ -19,8 +19,11 @@
 
 # Your codes here
 def merge(arr1, arr2):
+    """Merge two sorted arrays, arr1 and arr2."""
     i, j = 0, 0
     merged = []
+    # compare the smallest value from each array,
+    # then append the smaller one to merged array.
     while i != len(arr1) and j != len(arr2):
         if arr1[i] <= arr2[j]:
             merged.append(arr1[i])
@@ -29,6 +32,7 @@ def merge(arr1, arr2):
             merged.append(arr2[j])
             j += 1
 
+    # extend the remaining array.
     if i == len(arr1):
         merged.extend(arr2[j:])
     else:
