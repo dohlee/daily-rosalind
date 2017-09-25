@@ -18,18 +18,33 @@
 
 
 # Your codes here
+def merge(arr1, arr2):
+    i, j = 0, 0
+    merged = []
+    while i != len(arr1) and j != len(arr2):
+        if arr1[i] <= arr2[j]:
+            merged.append(arr1[i])
+            i += 1
+        else:
+            merged.append(arr2[j])
+            j += 1
 
+    if i == len(arr1):
+        merged.extend(arr2[j:])
+    else:
+        merged.extend(arr1[i:])
 
-
-
-
+    return merged
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_MER.txt') as inFile:
-        pass
+        n = int(inFile.readline())
+        arr1 = list(map(int, inFile.readline().split()))
+        m = int(inFile.readline())
+        arr2 = list(map(int, inFile.readline().split()))
 
     # Print output
     with open('../../answers/rosalind_MER_out.txt', 'w') as outFile:
-        pass
+        print(' '.join(map(str, merge(arr1, arr2))), file=outFile)
 
