@@ -15,21 +15,20 @@
 ##################################################
 
 # Your imports here
-
+from Bio.Seq import Seq
 
 # Your codes here
-
-
-
-
-
+def base_composition(dna):
+	"""Return the base composition ('A', 'C', 'G', 'T') of dna."""
+	seq = Seq(dna)
+	return seq.count('A'), seq.count('C'), seq.count('G'), seq.count('T')
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_INI.txt') as inFile:
-        pass
+        dna = inFile.readline().strip()
 
     # Print output
     with open('../../answers/rosalind_INI_out.txt', 'w') as outFile:
-        pass
+        print(' '.join(map(str, base_composition(dna))), file=outFile)
 
