@@ -17,21 +17,83 @@
 ##################################################
 
 # Your imports here
-
+from BA10A import generate_mapping
 
 # Your codes here
+def estimate_transition_probabilities(PI, S):
+    """Estimate state transition probabilities by counting transitions."""
+    # counts of transition from 0 to 1 will be stored in transitionCount[0][1].
+    transitionCount = [[0] * len(S) for _ in range(len(S))]
+    
+    # count transitions.
+    for src, dst in zip(PI[:-1], PI[1:]):
+        transitionCount[S[src]][S[dst]] += 1
+
+    # normalize transition counts.
+    normalizedTransitionCount = []
+    for row in transitionCount:
+        rowSum = sum(row)
+        if rowSum == 0:
+            normalized = [1 / len(row)] * len(row)
+        else:
+            normalized = [v / rowSum for v in row]
+
+        normalizedTransitionCount.append(normalized)
+
+    return normalizedTransitionCount
 
 
+def estimate_emission_probabilities(X, PI, Z, S):
+    """Estimate emission probabilities by counting emissions."""
+    # counts of emission of observation 1 from state 0 will be
+    # stored in emissionCount[0][1].
+    emissionCount = [[0] * len(Z) for _ in range(len(S))]
+
+    # count emissions.
+    for observation, state in zip(X, PI):
+        emissionCount[S[state]][Z[observation]] += 1
+
+    # normalize emission count.
+    normalizedEmissionCount = []
+    for row in emissionCount:
+        rowSum = sum(row)
+        if rowSum == 0:
+            normalized = [1 / len(row)] * len(row)
+        else:
+            normalized = [v / rowSum for v in row]
+
+        normalizedEmissionCount.append(normalized)
+
+    return normalizedEmissionCount
 
 
-
+def print_matrix(mat, rowNames, colNames, file):
+    """Pretty-print matrix."""
+    print('\t' + '\t'.join(colNames), file=file)
+    for rowName, row in zip(rowNames, mat):
+        r = list(map(lambda x: str(x) if len(str(x)) < 6 else '%.3f' % x, row))
+        print('\t'.join([rowName] + r), file=file)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA10H.txt') as inFile:
-        pass
+        X = inFile.readline().strip()
+        inFile.readline()
+        Z = generate_mapping(inFile)
+        inFile.readline()
+        PI = inFile.readline().strip()
+        inFile.readline()
+        S = generate_mapping(inFile)
+
+        alphabets = list(sorted(Z.keys(), key=lambda x: Z[x]))
+        states = list(sorted(S.keys(), key=lambda x: S[x]))
+        
+        A = estimate_transition_probabilities(PI, S)
+        E = estimate_emission_probabilities(X, PI, Z, S)
 
     # Print output
     with open('../../answers/rosalind_BA10H_out.txt', 'w') as outFile:
-        pass
+        print_matrix(A, rowNames=states, colNames=states, file=outFile)
+        print('--------', file=outFile)
+        print_matrix(E, rowNames=states, colNames=alphabets, file=outFile)
 
