@@ -18,14 +18,26 @@
 
 # Your imports here
 from BA10A import generate_mapping
-from BA10A import parse_transition_matrix
 
 # Your codes here
+def parse_emmision_matrix(inFile):
+    """Parse emmision matrix and return the matrix.
+    It assumes emmision matrix comes at the last.
+    """
+    inFile.readline()
+    E = [list(map(float, line.split()[1:])) for line in inFile.readlines()]
+    return E
 
-
-
-
-
+def probability_of_observation_sequence(X, PI, Z, S, E):
+    """Given observation X, state sequence PI, alphabet Z,
+    states S, emmision matrix E, compute the probability of
+    observation X.
+    """
+    p = 1
+    for x, s in zip(X, PI):
+        # multiply the probabiilty of emitting x from state s.
+        p *= E[S[s]][Z[x]]
+    return p
 
 if __name__ == '__main__':
     # Load the data.
@@ -35,9 +47,11 @@ if __name__ == '__main__':
         Z = generate_mapping(inFile)
         inFile.readline()
         PI = inFile.readline().strip()
-
+        inFile.readline()
+        S = generate_mapping(inFile)
+        inFile.readline()
+        E = parse_emmision_matrix(inFile)
 
     # Print output
     with open('../../answers/rosalind_BA10B_out.txt', 'w') as outFile:
-        pass
-
+        print('%.12g' % probability_of_observation_sequence(X, PI, Z, S, E), file=outFile)
