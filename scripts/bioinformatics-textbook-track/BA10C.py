@@ -29,8 +29,8 @@ def backtrack(V, BT, S):
     res = []
     inverseS = dict((v, k) for k, v in S.items())
 
-    stateIndex = max(range(len(S)), key=lambda l: V[l][len(V[0]) - 1])
-    for i in range(len(V[0]) - 1, 0, -1):
+    stateIndex = max(range(len(S)), key=lambda l: V[l][-1])
+    for i in range(len(V[0]) - 1, -1, -1):
         res.append(inverseS[stateIndex])
         stateIndex = BT[stateIndex][i]
 
@@ -43,15 +43,15 @@ def decode(X, Z, S, A, E):
     estimate the most probable state path by Viterbi algorithm.
     """
     # initialize Viterbi matrix and backtrack matrix.
-    V = [[0] * (len(X) + 1) for _ in range(len(S))]
-    BT = [[0] * (len(X) + 1) for _ in range(len(S))]
+    V = [[0] * len(X) for _ in range(len(S))]
+    BT = [[0] * len(X) for _ in range(len(S))]
     for k in range(len(S)):
-        V[k][0] = 1 / len(S)
+        V[k][0] = 1.0 / len(S) * E[k][Z[X[0]]]
 
     # Fill in Viterbi matrix.
-    for i in range(len(X)):
+    for i in range(len(X) - 1):
         for k in range(len(S)):
-            V[k][i+1] = E[k][Z[X[i]]] * max(V[l][i] * A[l][k] for l in range(len(S)))
+            V[k][i+1] = E[k][Z[X[i+1]]] * max(V[l][i] * A[l][k] for l in range(len(S)))
             BT[k][i+1] = max(range(len(S)), key=lambda l: V[l][i] * A[l][k])
 
     return backtrack(V, BT, S)
