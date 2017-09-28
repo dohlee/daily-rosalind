@@ -28,13 +28,13 @@ def backward_matrix(X, Z, S, A, E):
 	# initialize backward matrix.
 	B = [[0] * len(X) for _ in range(len(S))]
 	for k in range(len(S)):
-		B[k][len(X)-1] = 1
+		B[k][-1] = 1
 
 	# fill backward matrix.
-	for i in range(len(X)-1, 1, -1):
+	for i in range(len(X)-1, 0, -1):
 		for k in range(len(S)):
-			B[k][i-1] = sum(A[k][l] * E[l][Z[X[i-1]]] * B[l][i] for l in range(len(S)))
-			
+			B[k][i-1] = sum(A[k][l] * E[l][Z[X[i]]] * B[l][i] for l in range(len(S)))
+
 	return B
 
 
@@ -44,9 +44,6 @@ def soft_decode(F, B, X, Z, k, i):
 	"""
 	numState = len(F)
 	denom1 = sum(F[l][-1] for l in range(numState))
-	denom2 = sum(1.0 / numState * B[l][1] * E[l][Z[X[0]]] for l in range(numState))
-
-	# print(F[k][i+1], B[k][i+1], denom1, denom2, i)
 	return F[k][i] * B[k][i] / denom1 
 
 if __name__ == '__main__':
@@ -71,7 +68,8 @@ if __name__ == '__main__':
         print('\t'.join(states), file=outFile)
         for i in range(len(X)):
         	for k in range(len(S)):
-        		print(soft_decode(F, B, X, Z, k, i), end=' ', file=outFile)
+        		v = soft_decode(F, B, X, Z, k, i)
+        		print(('%.4f' % v).rstrip('0'), end=' ', file=outFile)
         	print(file=outFile)	
 
 
