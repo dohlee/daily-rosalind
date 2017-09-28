@@ -19,21 +19,50 @@
 ##################################################
 
 # Your imports here
-
+from BA10A import generate_mapping
+from BA10A import parse_transition_matrix
+from BA10B import parse_emission_matrix
+from BA10C import decode
+from BA10H import estimate_transition_probabilities
+from BA10H import estimate_emission_probabilities
+from BA10H import print_matrix
 
 # Your codes here
+def viterbi_learning(X, Z, S, A, E, maxIter=100):
+    """Apply decoding to get the most probable path,
+    estimate parameters by counting, apply decoding...
+    """
+    for _ in range(maxIter):
+        # get the most probable path.
+        decoded = decode(X, Z, S, A, E)
+        # estimate HMM model parameters.
+        A = estimate_transition_probabilities(decoded, S)
+        E = estimate_emission_probabilities(X, decoded, Z, S) 
 
-
-
-
-
+    return A, E
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA10I.txt') as inFile:
-        pass
+        i = int(inFile.readline())
+        inFile.readline()
+        X = inFile.readline().strip()
+        inFile.readline()
+        Z = generate_mapping(inFile)
+        inFile.readline()
+        S = generate_mapping(inFile)
+        inFile.readline()
+        A = parse_transition_matrix(inFile)
+        inFile.readline()
+        E = parse_emission_matrix(inFile)
+
+        alphabets = list(sorted(Z.keys(), key=lambda x: Z[x]))
+        states = list(sorted(S.keys(), key=lambda x: S[x]))
 
     # Print output
     with open('../../answers/rosalind_BA10I_out.txt', 'w') as outFile:
-        pass
+        A, E = viterbi_learning(X, Z, S, A, E)
+        print_matrix(A, rowNames=states, colNames=states, file=outFile)
+        print('--------', file=outFile)
+        print_matrix(E, rowNames=states, colNames=alphabets, file=outFile)
 

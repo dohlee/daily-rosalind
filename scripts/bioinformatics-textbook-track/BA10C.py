@@ -18,7 +18,7 @@
 # Your imports here
 from BA10A import generate_mapping
 from BA10A import parse_transition_matrix
-from BA10B import parse_emmision_matrix
+from BA10B import parse_emission_matrix
 
 
 # Your codes here
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         inFile.readline()
         A = parse_transition_matrix(inFile)
         inFile.readline()
-        E = parse_emmision_matrix(inFile)
+        E = parse_emission_matrix(inFile)
 
     # Print output
     with open('../../answers/rosalind_BA10C_out.txt', 'w') as outFile:

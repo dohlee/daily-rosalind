@@ -20,9 +20,9 @@
 from BA10A import generate_mapping
 
 # Your codes here
-def parse_emmision_matrix(inFile):
-    """Parse emmision matrix and return the matrix.
-    It assumes emmision matrix comes at the last.
+def parse_emission_matrix(inFile):
+    """Parse emission matrix and return the matrix.
+    It assumes emission matrix comes at the last.
     """
     inFile.readline()
     E = [list(map(float, line.split()[1:])) for line in inFile.readlines()]
@@ -30,7 +30,7 @@ def parse_emmision_matrix(inFile):
 
 def probability_of_observation_sequence(X, PI, Z, S, E):
     """Given observation X, state sequence PI, alphabet Z,
-    states S, emmision matrix E, compute the probability of
+    states S, emission matrix E, compute the probability of
     observation X.
     """
     p = 1
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         inFile.readline()
         S = generate_mapping(inFile)
         inFile.readline()
-        E = parse_emmision_matrix(inFile)
+        E = parse_emission_matrix(inFile)
 
     # Print output
     with open('../../answers/rosalind_BA10B_out.txt', 'w') as outFile:
