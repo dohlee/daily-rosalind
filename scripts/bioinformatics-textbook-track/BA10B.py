@@ -17,7 +17,8 @@
 ##################################################
 
 # Your imports here
-
+from BA10A import generate_mapping
+from BA10A import parse_transition_matrix
 
 # Your codes here
 
@@ -29,7 +30,12 @@
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA10B.txt') as inFile:
-        pass
+        X = inFile.readline().strip()
+        inFile.readline()
+        Z = generate_mapping(inFile)
+        inFile.readline()
+        PI = inFile.readline().strip()
+
 
     # Print output
     with open('../../answers/rosalind_BA10B_out.txt', 'w') as outFile:
