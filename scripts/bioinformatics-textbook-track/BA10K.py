@@ -78,8 +78,6 @@ if __name__ == '__main__':
         alphabets = list(sorted(Z.keys(), key=lambda x: Z[x]))
         states = list(sorted(S.keys(), key=lambda x: S[x]))
 
-        F = forward_matrix(X, Z, S, A, E)
-        B = backward_matrix(X, Z, S, A, E)
         A, E = baum_welch_learning(X, Z, S, A, E, maxIter=maxIter)
 
     # Print output
