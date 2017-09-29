@@ -1,4 +1,0 @@
->Rosalind_67
-PLEASANTLY
->Rosalind_17
-MEANLY

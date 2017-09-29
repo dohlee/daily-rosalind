@@ -1,8 +1,0 @@
->Rosalind_7
-ATATCCG
->Rosalind_35
-TCCG
->Rosalind_23
-ATGTACTG
->Rosalind_44
-ATGTCTG

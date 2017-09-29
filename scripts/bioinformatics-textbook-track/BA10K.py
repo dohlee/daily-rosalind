@@ -25,7 +25,6 @@ from BA10B import parse_emission_matrix
 from BA10H import print_matrix
 from BA10D import forward_matrix
 from BA10J import backward_matrix
-from BA10J import soft_decode
 
 # Your codes here
 def row_normalize(mat):
