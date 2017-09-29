@@ -14,18 +14,19 @@
 
 
 # Your codes here
+# Define complementing bases.
+COMPLEMENT_TABLE = str.maketrans('ATGC', 'TACG')
 
-
-
-
-
+def reverse_complement(seq):
+	"""Return the reverse complement of seq."""
+	return seq[::-1].translate(COMPLEMENT_TABLE)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA1C.txt') as inFile:
-        pass
+        seq = inFile.readline().strip()
 
     # Print output
     with open('../../answers/rosalind_BA1C_out.txt', 'w') as outFile:
-        pass
+        print(reverse_complement(seq), file=outFile)
 
