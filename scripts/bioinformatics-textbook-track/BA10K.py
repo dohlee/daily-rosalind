@@ -19,21 +19,72 @@
 ##################################################
 
 # Your imports here
-
+from BA10A import generate_mapping
+from BA10A import parse_transition_matrix
+from BA10B import parse_emission_matrix
+from BA10H import print_matrix
+from BA10D import forward_matrix
+from BA10J import backward_matrix
+from BA10J import soft_decode
 
 # Your codes here
+def row_normalize(mat):
+    """Retun row-normalized matrix."""
+    return list(map(lambda x: [v / sum(x) for v in x], mat))
 
 
+def baum_welch_learning(X, Z, S, A, E, maxIter):
+    """Given observation sequence X, alphabets Z, states S,
+    initial state transition probability matrix A, 
+    initial emission matrix E, estimate A and E by baum-welch learning.
+    """ 
+    for _ in range(maxIter):
+        # compute forward and backward matrix with current parameters.
+        F = forward_matrix(X, Z, S, A, E)
+        B = backward_matrix(X, Z, S, A, E)
 
+        # compute the probability of the sequence given HMM model paramters.
+        P_X = sum(F[k][-1] for k in range(len(S)))
+        #
+        expectedA = [[0] * len(S) for _ in range(len(S))]
+        expectedE = [[0] * len(Z) for _ in range(len(S))]
 
+        for k in range(len(S)):
+            for l in range(len(S)):
+                expectedA[k][l] = sum(F[k][i] * A[k][l] * E[l][Z[X[i+1]]] * B[l][i+1] for i in range(len(X) - 1)) / P_X
+        for k in range(len(S)):
+            for b in range(len(Z)):
+                expectedE[k][b] = sum(F[k][i] * B[k][i] for i in range(len(X)) if Z[X[i]] == b) / P_X
 
+        A = row_normalize(expectedA)
+        E = row_normalize(expectedE)
+
+    return A, E
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA10K.txt') as inFile:
-        pass
+        maxIter = int(inFile.readline())
+        inFile.readline()
+        X = inFile.readline().strip()
+        inFile.readline()
+        Z = generate_mapping(inFile)
+        inFile.readline()
+        S = generate_mapping(inFile)
+        inFile.readline()
+        A = parse_transition_matrix(inFile)
+        inFile.readline()
+        E = parse_emission_matrix(inFile)
+
+        alphabets = list(sorted(Z.keys(), key=lambda x: Z[x]))
+        states = list(sorted(S.keys(), key=lambda x: S[x]))
+
+        F = forward_matrix(X, Z, S, A, E)
+        B = backward_matrix(X, Z, S, A, E)
+        A, E = baum_welch_learning(X, Z, S, A, E, maxIter=maxIter)
 
     # Print output
     with open('../../answers/rosalind_BA10K_out.txt', 'w') as outFile:
-        pass
-
+        print_matrix(A, rowNames=states, colNames=states, file=outFile)
+        print('--------', file=outFile)
+        print_matrix(E, rowNames=states, colNames=alphabets, file=outFile)
