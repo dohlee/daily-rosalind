@@ -13,21 +13,16 @@
 ##################################################
 
 # Your imports here
-
+from BA1A import find
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA1D.txt') as inFile:
-        pass
+    	motif = inFile.readline().strip()
+    	seq = inFile.readline().strip()
 
     # Print output
     with open('../../answers/rosalind_BA1D_out.txt', 'w') as outFile:
-        pass
+        print(' '.join(map(str, find(seq, motif))), file=outFile)
 
