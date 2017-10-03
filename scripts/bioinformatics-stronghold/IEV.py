@@ -22,18 +22,12 @@
 
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_IEV.txt') as inFile:
-        pass
-
+        couples = list(map(int, inFile.readline().split()))
+        weights = [2, 2, 2, 1.5, 1, 0]
     # Print output
     with open('../../answers/rosalind_IEV_out.txt', 'w') as outFile:
-        pass
+        print(sum(c * w for c, w in zip(couples, weights)), file=outFile) 
 

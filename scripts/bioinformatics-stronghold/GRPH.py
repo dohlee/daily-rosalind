@@ -18,6 +18,7 @@ from collections import defaultdict
 
 # Your codes here
 def overlap_graph(filePath, k=3):
+    """Return k-overlap graph of the sequences."""
     prefix = defaultdict(list)
     suffix = defaultdict(list)
 
@@ -27,10 +28,10 @@ def overlap_graph(filePath, k=3):
 
     overlapGraph = []
     for kmer in prefix:
-        for h in prefix[kmer]:
+        for p in prefix[kmer]:
             for s in suffix[kmer]:
-                if h != s:
-                    overlapGraph.append((s, h))
+                if p != s:
+                    overlapGraph.append((s, p))
 
     return overlapGraph
 
