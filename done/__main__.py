@@ -24,6 +24,7 @@ LOCATIONS = ['python-village',
              'bioinformatics-textbook-track',
              'algorithmic-heights']
 ORDER_IRRELEVANT_PROBLEMS = [line.strip() for line in open('order_irrelevant_problems.txt').readlines()]
+IGNORED_PROBLEMS = [line.strip() for line in open('ignored_problems.txt').readlines()]
 
 def stash_directories():
     shutil.move('../datasets/', '../datasets_/')
@@ -107,6 +108,9 @@ def test_single(location, code, verbose=False):
 
     if code.upper() in ORDER_IRRELEVANT_PROBLEMS:
         return order_irrelevant_test(myAnswerFile, answerFile)
+
+    if code.upper() in IGNORED_PROBLEMS:
+        return True
 
     else:
         return identity_test(myAnswerFile, answerFile)

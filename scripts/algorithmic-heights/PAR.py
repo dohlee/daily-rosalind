@@ -19,18 +19,30 @@
 
 
 # Your codes here
+def partition(arr):
+	"""Partition array with the first element as a pivot."""
+	pivot = arr[0]
+	p, q = 1, len(arr) - 1
 
+	while p < q:
+		while arr[p] <= pivot: p += 1
+		while arr[q] > pivot: q -= 1
 
+		arr[p], arr[q] = arr[q], arr[p]
 
+	arr[p], arr[q] = arr[q], arr[p]	
 
-
+	# place pivot element in the middle.
+	arr[0], arr[q] = arr[q], arr[0]
+	return arr
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_PAR.txt') as inFile:
-        pass
+        inFile.readline()
+        arr = list(map(int, inFile.readline().split()))
 
     # Print output
     with open('../../answers/rosalind_PAR_out.txt', 'w') as outFile:
-        pass
+        print(' '.join(map(str, partition(arr))), file=outFile)
 
