@@ -19,18 +19,29 @@
 
 
 # Your codes here
+def lexicographic_kmers_helper(alphabets, k):
+	"""Helper function for recursive call."""
+	if k == 1:
+		return alphabets
 
+	res = []
+	for x in alphabets:
+		res.extend([x + result for result in lexicographic_kmers_helper(alphabets, k-1)])
 
+	return res
 
-
-
+def lexicographic_kmers(alphabets, k):
+	"""Return lexicographically ordered k-mers."""
+	alphabets = sorted(alphabets)
+	return lexicographic_kmers_helper(alphabets, k)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_LEXF.txt') as inFile:
-        pass
+        alphabets = list(map(str, inFile.readline().split()))
+        k = int(inFile.readline())
 
     # Print output
     with open('../../answers/rosalind_LEXF_out.txt', 'w') as outFile:
-        pass
+        print('\n'.join(lexicographic_kmers(alphabets, k)), file=outFile)
 
