@@ -17,21 +17,21 @@
 ##################################################
 
 # Your imports here
-
+from math import log10
 
 # Your codes here
-
-
-
-
-
+def log_probability_of_sequence(seq, gcContent):
+	"""Given GC content, return the common logarithm of the probability of the sequence."""
+	return sum(log10([(1 - gcContent) / 2, gcContent / 2][nuc in ['G', 'C']]) for nuc in seq)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_PROB.txt') as inFile:
-        pass
+        seq = inFile.readline().strip()
+        gcContents = map(float, inFile.readline().split())
 
     # Print output
     with open('../../answers/rosalind_PROB_out.txt', 'w') as outFile:
-        pass
+        for gcContent in gcContents:
+        	print('%.3f' % log_probability_of_sequence(seq, gcContent), end=' ', file=outFile)
 
