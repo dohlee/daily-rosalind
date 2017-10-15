@@ -41,6 +41,7 @@ Y   163.06333
 massTable = dict(zip(massTable[::2],map(float,massTable[1::2])))
 
 def weight(peptide):
+	"""Return the total weight of the peptide."""
 	return sum(massTable[aa] for aa in peptide)
 
 if __name__ == '__main__':
