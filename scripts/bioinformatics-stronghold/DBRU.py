@@ -14,21 +14,22 @@
 ##################################################
 
 # Your imports here
-
+from REVC import reverse_complement
 
 # Your codes here
-
-
-
-
-
+def de_bruijn_graph(seqs):
+	"""Construct de Bruijn Graph from a set of sequences."""
+	seqs = set(seqs).union(set(reverse_complement(seq) for seq in seqs))
+	adjacencyList = [(seq[:-1], seq[1:]) for seq in seqs]
+	return adjacencyList
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_DBRU.txt') as inFile:
-        pass
+        seqs = [line.strip() for line in inFile.readlines()]
 
     # Print output
     with open('../../answers/rosalind_DBRU_out.txt', 'w') as outFile:
-        pass
+        for u, v in de_bruijn_graph(seqs):
+        	print('(%s, %s)' % (u, v), file=outFile)
 
