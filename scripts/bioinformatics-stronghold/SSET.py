@@ -15,18 +15,12 @@
 
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_SSET.txt') as inFile:
-        pass
+        n = int(inFile.readline())
 
     # Print output
     with open('../../answers/rosalind_SSET_out.txt', 'w') as outFile:
-        pass
+        print(2**n % 1000000, file=outFile)
 
