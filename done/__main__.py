@@ -38,6 +38,10 @@ def restore_directories():
     shutil.move('../datasets_/', '../datasets/')
     shutil.move('../answers_/', '../answers/')
 
+@ensure_at_done
+def remove_cache():
+    shutil.rmtree('__pycache__')
+
 def prepare_test_environment():
     shutil.copytree('./datasets/', '../datasets/')
     os.mkdir('../answers/')
@@ -151,6 +155,7 @@ def main():
 
     finally:
         restore_directories()
+        remove_cache()
 
 if __name__ == '__main__':
     main()

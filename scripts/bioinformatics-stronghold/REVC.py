@@ -15,9 +15,14 @@
 
 
 # Your codes here
-COMPLEMENT_TABLE = str.maketrans('ATGC', 'TACG')
-def reverse_complement(string):
-	return string[::-1].translate(COMPLEMENT_TABLE)
+COMPLEMENT_TABLE_DNA = str.maketrans('ATGC', 'TACG')
+COMPLEMENT_TABLE_RNA = str.maketrans('AUGC', 'UACG')
+
+def reverse_complement(string, rna=False):
+	if rna:
+		return string[::-1].translate(COMPLEMENT_TABLE_RNA)
+	else:
+		return string[::-1].translate(COMPLEMENT_TABLE_DNA)
 
 if __name__ == '__main__':
     # Load the data.
