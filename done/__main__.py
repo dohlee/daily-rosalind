@@ -88,7 +88,7 @@ def identity_test(myAnswerFile, answerFile):
     with open(answerFile) as inFile:
         answer = squash_consecutive_whitespaces(inFile.read().strip())
 
-    return myAnswer == answer
+    return myAnswer.strip() == answer.strip()
 
 def order_irrelevant_test(myAnswerFile, answerFile):
     with open(myAnswerFile) as inFile:

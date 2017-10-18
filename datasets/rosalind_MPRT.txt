@@ -1,1 +1,4 @@
-http://www.uniprot.org/uniprot/uniprot_id
+A2Z669
+B5ZC00
+P07204_TRBM_HUMAN
+P20840_SAG1_YEAST
