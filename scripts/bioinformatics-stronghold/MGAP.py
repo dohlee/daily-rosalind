@@ -15,21 +15,16 @@
 ##################################################
 
 # Your imports here
-
+from GC import Fasta
+from LCSQ import longest_common_subsequence
 
 # Your codes here
 
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
-    with open('../../datasets/rosalind_MGAP.txt') as inFile:
-        pass
+    seq1, seq2 = [seq for header, seq in Fasta('../../datasets/rosalind_MGAP.txt')]
 
     # Print output
     with open('../../answers/rosalind_MGAP_out.txt', 'w') as outFile:
-        pass
+        print(len(seq1) + len(seq2) - 2 * len(longest_common_subsequence(seq1, seq2)), file=outFile)        
 
