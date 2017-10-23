@@ -96,6 +96,26 @@ class DPMatrix:
                 self.mat[i][j] = score
                 self.backtrackMat[i][j] = direction
 
+    def augmented_sequences(self):
+        i, j = len(self.seq1), len(self.seq2)
+        augmentedSeq1, augmentedSeq2 = [], []
+        while not (i == 0 and j == 0):
+            if self.backtrackMat[i][j] == self.DIAG:
+                augmentedSeq1.append(self.seq1[i-1])
+                augmentedSeq2.append(self.seq2[j-1])
+                i -= 1
+                j -= 1
+            elif self.backtrackMat[i][j] == self.UP:
+                augmentedSeq1.append(self.seq1[i-1])
+                augmentedSeq2.append('-')
+                i -= 1
+            elif self.backtrackMat[i][j] == self.LEFT:
+                augmentedSeq1.append('-')
+                augmentedSeq2.append(self.seq2[j-1])
+                j -= 1
+
+        return ''.join(augmentedSeq1[::-1]), ''.join(augmentedSeq2[::-1])
+
     def __getitem__(self, i):
         return self.mat[i] 
 
