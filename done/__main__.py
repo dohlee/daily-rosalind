@@ -41,6 +41,9 @@ def restore_directories():
 @ensure_at_done
 def remove_cache():
     shutil.rmtree('__pycache__')
+    for location in LOCATIONS:
+        if os.path.exists('../scripts/%s/__pycache__' % location):
+            shutil.rmtree('../scripts/%s/__pycache__' % location)
 
 def prepare_test_environment():
     shutil.copytree('./datasets/', '../datasets/')
