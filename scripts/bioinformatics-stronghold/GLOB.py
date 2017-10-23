@@ -64,12 +64,18 @@ class DPMatrix:
         self.seq1, self.seq2 = seq1, seq2
         self.mat = [[0] * (len(seq2) + 1) for _ in range(len(seq1) + 1)]
         self.backtrackMat = [[0] * (len(seq2) + 1) for _ in range(len(seq1) + 1)]
-        self.scoringMatrix = blosum62_matrix()
         self.match, self.mismatch, self.gap = match, mismatch, gap
-        self.recurrenceRelation = lambda i, j, self: max(enumerate([self.mat[i-1][j-1] + self.scoringMatrix[self.seq1[i-1]][self.seq2[j-1]], 
-                                                        self.mat[i-1][j] + self.gap, 
-                                                        self.mat[i][j-1] + self.gap]),
-                                                        key=lambda x: x[1])
+        if self.match is None or self.mismatch is None:
+            self.scoringMatrix = blosum62_matrix()
+            self.recurrenceRelation = lambda i, j, self: max(enumerate([self.mat[i-1][j-1] + self.scoringMatrix[self.seq1[i-1]][self.seq2[j-1]], 
+                                                            self.mat[i-1][j] + self.gap, 
+                                                            self.mat[i][j-1] + self.gap]),
+                                                            key=lambda x: x[1])
+        else:
+            self.recurrenceRelation = lambda i, j, self: max(enumerate([self.mat[i-1][j-1] + [self.mismatch, self.match][self.seq1[i-1] == self.seq2[j-1]], 
+                                                            self.mat[i-1][j] + self.gap, 
+                                                            self.mat[i][j-1] + self.gap]),
+                                                            key=lambda x: x[1])
 
     def set_recurrence_relation(self, recurrenceRelation):
         """Set recurrence relation which is used for filling DP matrix."""
