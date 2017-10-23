@@ -60,11 +60,12 @@ class DPMatrix:
         various alignment tasks.
         Basically it performs pairwise global alignment.
         """
-        self.DIAG, self.UP, self.LEFT = 0, 1, 2
+        self.DIAG, self.UP, self.LEFT, self.DONE = 0, 1, 2, 3
         self.seq1, self.seq2 = seq1, seq2
         self.mat = [[0] * (len(seq2) + 1) for _ in range(len(seq1) + 1)]
         self.backtrackMat = [[0] * (len(seq2) + 1) for _ in range(len(seq1) + 1)]
         self.match, self.mismatch, self.gap = match, mismatch, gap
+
         if self.match is None or self.mismatch is None:
             self.scoringMatrix = blosum62_matrix()
             self.recurrenceRelation = lambda i, j, self: max(enumerate([self.mat[i-1][j-1] + self.scoringMatrix[self.seq1[i-1]][self.seq2[j-1]], 
@@ -81,14 +82,34 @@ class DPMatrix:
         """Set recurrence relation which is used for filling DP matrix."""
         self.recurrenceRelation = recurrenceRelation
 
-    def fill(self):
-        """Fill DP matrix with given recurrence relation."""
+    def set_scoring_matrix(self, scoringMatrix):
+        """Set user-defined scoring matrix"""
+        self.scoringMatrix = scoringMatrix
+
+    def set_backtrack_starting_point(self, func):
+        """Set user-defined backtrack starting point."""
+        self.backtrack_starting_point = func
+
+    def set_initializer(self, func):
+        """Set user-defined matrix initializer."""
+        self.initialize = func
+
+    def initialize(self, self_):
+        """Matrix initilizer."""
         for i in range(len(self.seq1) + 1):
             self.mat[i][0] = self.gap * i
             self.backtrackMat[i][0] = self.UP
         for j in range(len(self.seq2) + 1):
             self.mat[0][j] = self.gap * j
             self.backtrackMat[0][j] = self.LEFT
+
+    def backtrack_starting_point(self, self_):
+        """Dynamically define starting point of the backtracking."""
+        return len(self.seq1), len(self.seq2)
+
+    def fill(self):
+        """Fill DP matrix with given recurrence relation."""
+        self.initialize(self)
 
         for i in range(1, len(self.seq1) + 1):
             for j in range(1, len(self.seq2) + 1):
@@ -97,8 +118,10 @@ class DPMatrix:
                 self.backtrackMat[i][j] = direction
 
     def augmented_sequences(self):
-        i, j = len(self.seq1), len(self.seq2)
+        """Return augmented sequences."""
+        i, j = self.backtrack_starting_point(self)
         augmentedSeq1, augmentedSeq2 = [], []
+
         while not (i == 0 and j == 0):
             if self.backtrackMat[i][j] == self.DIAG:
                 augmentedSeq1.append(self.seq1[i-1])
@@ -113,6 +136,8 @@ class DPMatrix:
                 augmentedSeq1.append('-')
                 augmentedSeq2.append(self.seq2[j-1])
                 j -= 1
+            else:
+                break
 
         return ''.join(augmentedSeq1[::-1]), ''.join(augmentedSeq2[::-1])
 
