@@ -24,7 +24,7 @@ from GC import Fasta
 INF = 12345679
 DIAG, UP, LEFT, DONE = 1, 2, 4, 8
 
-def initialize_matrix(mat, backtrackMat):
+def initialize_matrix(mat, backtrackMat, seq1, seq2):
     """Initialize matrices for semiglobal alignment."""
     for i in range(len(seq1) + 1):
         mat[i][0] = 0
@@ -44,7 +44,7 @@ def semiglobal_alignment(seq1, seq2, match, mismatch, gap):
     # Initialization.
     mat = [[-INF] * (len(seq2) + 1) for _ in range(len(seq1) + 1)]
     backtrackMat = [[0] * (len(seq2) + 1) for _ in range(len(seq1) + 1)]
-    initialize_matrix(mat, backtrackMat)
+    initialize_matrix(mat, backtrackMat, seq1, seq2)
 
     # Limit coordinates for pruning.
     limit = [len(seq2) + 1] * (len(seq1) + 1)
@@ -68,7 +68,7 @@ def semiglobal_alignment(seq1, seq2, match, mismatch, gap):
                     backtrackMat[i][j] += [DIAG, UP, LEFT][k]
 
             # Pruning.
-            if score < maxScore - (len(seq2) - j):
+            if score < maxScore - match * (len(seq2) - j):
                 x, y = i + 1, j + 1
                 while x < len(seq1) + 1 and y < len(seq2) + 1:
                     limit[x] = y
@@ -144,10 +144,6 @@ def augmented_sequences(mat, backtrackMat, maxScore, seq1, seq2):
         augSeq2 = seq2[:endJ] + ''.join(augmentedSeq2[::-1]) + seq2[startJ:]
 
     return augSeq1, augSeq2
-
-def get_max_score(mat):
-    """Return the max score over the rightmost column of the DP matrix."""
-    return max(mat[i][len(mat.seq2)] for i in range(len(mat.seq1) + 1))
 
 if __name__ == '__main__':
     # Load the data.
