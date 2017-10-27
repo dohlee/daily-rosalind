@@ -28,5 +28,5 @@ if __name__ == '__main__':
 
     # Print output
     with open('../../answers/rosalind_ASPC_out.txt', 'w') as outFile:
-        print(sum(combination(n, i) for i in range(k, n+1)) % 1000000)
+        print(sum(combination(n, i) for i in range(k, n+1)) % 1000000, file=outFile)
 
