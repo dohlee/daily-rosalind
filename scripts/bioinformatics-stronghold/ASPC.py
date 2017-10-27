@@ -14,21 +14,19 @@
 ##################################################
 
 # Your imports here
-
+from math import factorial
 
 # Your codes here
-
-
-
-
-
+def combination(n, r):
+	"""Return nCr."""
+	return factorial(n) // factorial(n-r) // factorial(r)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_ASPC.txt') as inFile:
-        pass
+        n, k = map(int, inFile.readline().split())
 
     # Print output
     with open('../../answers/rosalind_ASPC_out.txt', 'w') as outFile:
-        pass
+        print(sum(combination(n, i) for i in range(k, n+1)) % 1000000)
 
