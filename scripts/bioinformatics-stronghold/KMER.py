@@ -12,21 +12,18 @@
 ##################################################
 
 # Your imports here
-
+from LEXF import lexicographic_kmers
+from GC import Fasta
+from collections import Counter
 
 # Your codes here
 
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
-    with open('../../datasets/rosalind_KMER.txt') as inFile:
-        pass
+    seq = [s for h, s in Fasta('../../datasets/rosalind_KMER.txt')][0]
 
     # Print output
     with open('../../answers/rosalind_KMER_out.txt', 'w') as outFile:
-        pass
+        counter = Counter([seq[i:i+4] for i in range(0, len(seq) - 3)])
+        print(' '.join(map(str, [counter[kmer] for kmer in lexicographic_kmers('ATGC', k=4)])), file=outFile)
 
