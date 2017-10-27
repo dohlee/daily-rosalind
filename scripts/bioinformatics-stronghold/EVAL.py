@@ -23,7 +23,6 @@
 
 # Your codes here
 EPSILON = 1e-5
-
 def probability(seq, gcContent):
 	p = 1
 	for c in seq:
