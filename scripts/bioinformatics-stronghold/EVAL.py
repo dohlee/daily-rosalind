@@ -22,18 +22,26 @@
 
 
 # Your codes here
+EPSILON = 1e-5
+def probability(seq, gcContent):
+	p = 1
+	for c in seq:
+		if c in 'AT':
+			p *= (1 - gcContent) / 2
+		else:
+			p *= gcContent / 2
 
-
-
-
-
+	return p
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_EVAL.txt') as inFile:
-        pass
+        n = int(inFile.readline())
+        s = inFile.readline().strip()
+        A = list(map(float, inFile.readline().split()))
 
     # Print output
     with open('../../answers/rosalind_EVAL_out.txt', 'w') as outFile:
-        pass
+    	B = [probability(s, gcContent) * (n - len(s) + 1) for gcContent in A]
+    	print(' '.join(map(lambda x: '%.3f' % (x + EPSILON), B)), file=outFile)
 
