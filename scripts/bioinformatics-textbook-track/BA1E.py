@@ -15,13 +15,14 @@
 from collections import Counter
 
 # Your codes here
-def enumerate_kmers(string, k):
+def enumerate_kmers(string, k, start=0):
     """Generate all k-mers within a string."""
     for i in range(0, len(string) - k + 1):
-        yield string[i:i+k]
+        yield start + i, string[i:i+k]
 
 
 def add_clump_forming_kmers(counts, clumpFormingKmers):
+    """Add clump-forming k-mer to the set."""
     for kmer in counts:
         if counts[kmer] >= t:
             clumpFormingKmers.add(kmer)
@@ -36,7 +37,7 @@ def clump_forming_kmers(string, k, l, t):
     clumpFormingKmers = set()
     # Initial counts of k-mers within length l window starting from the first
     # chracter of the string.
-    counts = Counter(enumerate_kmers(string[:l], k))
+    counts = Counter([kmer for i, kmer in enumerate_kmers(string[:l], k)])
     clumpFormingKmers = add_clump_forming_kmers(counts, clumpFormingKmers)
 
     for i in range(1, len(string) - l + 1):
