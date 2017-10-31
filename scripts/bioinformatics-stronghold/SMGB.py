@@ -47,13 +47,13 @@ def semiglobal_alignment(seq1, seq2, match, mismatch, gap):
     initialize_matrix(mat, backtrackMat, seq1, seq2)
 
     # Limit coordinates for pruning.
-    limit = [len(seq2) + 1] * (len(seq1) + 1)
+    limit, nextLimit = len(seq2) + 1, len(seq2) + 1
     maxScore = -INF
 
     # Fill DP matrix.
     for i in range(1, len(seq1) + 1):
         j = 1
-        while j < limit[i]:
+        while j < limit:
             candidates = [mat[i-1][j-1] + [mismatch, match][seq1[i-1] == seq2[j-1]],
                             mat[i-1][j] + gap,
                             mat[i][j-1] + gap]
@@ -69,17 +69,15 @@ def semiglobal_alignment(seq1, seq2, match, mismatch, gap):
 
             # Pruning.
             if score < maxScore - match * (len(seq2) - j):
-                x, y = i + 1, j + 1
-                while x < len(seq1) + 1 and y < len(seq2) + 1:
-                    limit[x] = y
-                    x += 1
-                    y += 1
+                nextLimit = j + 1
 
             # Replace max score if needed.
             if j == len(seq2) and score > maxScore:
                 maxScore = score
 
             j += 1
+
+        limit = nextLimit
     
     # Backtrack and get augmented sequences.
     augSeq1, augSeq2 = augmented_sequences(mat, backtrackMat, maxScore, seq1, seq2)
