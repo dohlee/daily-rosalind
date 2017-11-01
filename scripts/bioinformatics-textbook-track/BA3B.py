@@ -19,18 +19,20 @@
 
 
 # Your codes here
+def reconstruct_from_genome_path(kmers):
+    """Return the original string reconstructed from kmers.""" 
+    seq = [kmers[0]]
+    for kmer in kmers[1:]:
+        seq.append(kmer[-1])
 
-
-
-
-
+    return ''.join(seq)
 
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA3B.txt') as inFile:
-        pass
+        kmers = [line.strip() for line in inFile.readlines()]
 
     # Print output
     with open('../../answers/rosalind_BA3B_out.txt', 'w') as outFile:
-        pass
+        print(reconstruct_from_genome_path(kmers), file=outFile)
 
