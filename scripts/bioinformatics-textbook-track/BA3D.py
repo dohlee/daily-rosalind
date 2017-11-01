@@ -13,6 +13,7 @@
 
 # Your imports here
 from BA1E import enumerate_kmers
+from BA3F import find_eulerian_cycle
 from BA3G import find_eulerian_path
 from collections import Counter, defaultdict
 
@@ -96,13 +97,20 @@ class DeBruijnGraph:
 
         return graph
 
-    def reconstruct(self):
+    def reconstruct(self, cyclic=False):
         """Reconstruct original string from de bruijn graph."""
         graph = self.graph.copy()
-        eulerianPath = find_eulerian_path(graph)
-        reconstructed = [eulerianPath[0].label]
-        for node in eulerianPath[1:]:
-            reconstructed.append(node.label[-1])
+        if cyclic:
+            path = find_eulerian_cycle(graph, start=list(self.graph.keys())[0])
+            reconstructed = [path[0].label]
+            k = len(path[0].label)
+            for node in path[1:-k]:
+                reconstructed.append(node.label[-1])
+        else:
+            path = find_eulerian_path(graph)
+            reconstructed = [path[0].label]
+            for node in path[1:]:
+                reconstructed.append(node.label[-1])
 
         return ''.join(reconstructed)
 
@@ -111,6 +119,13 @@ class DeBruijnGraph:
 
     def __iter__(self):
         return iter(self.graph.keys())
+
+    def __str__(self):
+        s = []
+        for u in self.graph:
+            s.append('%s -> %s' % (u.label, ','.join(map(lambda x: x.label, self.graph[u]))))
+
+        return '\n'.join(s)
 
 if __name__ == '__main__':
     # Load the data.
