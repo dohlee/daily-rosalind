@@ -13,6 +13,7 @@
 
 # Your imports here
 from BA1E import enumerate_kmers
+from BA3G import find_eulerian_path
 from collections import Counter, defaultdict
 
 # Your codes here
@@ -94,6 +95,16 @@ class DeBruijnGraph:
             graph[u].append(v)
 
         return graph
+
+    def reconstruct(self):
+        """Reconstruct original string from de bruijn graph."""
+        graph = self.graph.copy()
+        eulerianPath = find_eulerian_path(graph)
+        reconstructed = [eulerianPath[0].label]
+        for node in eulerianPath[1:]:
+            reconstructed.append(node.label[-1])
+
+        return ''.join(reconstructed)
 
     def __getitem__(self, u):
         return self.graph[u]

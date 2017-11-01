@@ -14,21 +14,17 @@
 ##################################################
 
 # Your imports here
-
+from BA3D import DeBruijnGraph
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA3H.txt') as inFile:
-        pass
+        k = int(inFile.readline())
+        kmers = [line.strip() for line in inFile.readlines()]
+        deBruijnGraph = DeBruijnGraph(kmers=kmers)
 
     # Print output
     with open('../../answers/rosalind_BA3H_out.txt', 'w') as outFile:
-        pass
+        print(deBruijnGraph.reconstruct(), file=outFile)
 
