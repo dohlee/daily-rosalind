@@ -40,17 +40,46 @@ class DeBruijnNode:
         return hash(self.label)
 
 class DeBruijnGraph:
-    def __init__(self, string, k):
+    def __init__(self, string=None, kmers=None, k=None):
         """Construct de Bruijn graph for string with k-mers.
         Each node is labeled with (k-1)-mers, and each edge represents
         every k-mers in the string.
         """
         self.nodes = dict()
-        self.graph = self._construct_graph(string, k)
+        if string is not None and kmers is not None:
+            raise ValueError("You cannot construct de Bruijn graph with a string and k-mers at the same time.")
+        if string is None and kmers is None:
+            raise ValueError("You should give string or k-mers to build de Bruijn graph.")
 
-    def _construct_graph(self, string, k):
+        if string is not None:
+            if k is None:
+                raise ValueError("You should specify the length of k-mers to build de Bruijn graph.")
+            else:
+                self.graph = self._construct_graph_from_string(string, k)
+        elif kmers is not None:
+            self.graph = self._construct_graph_from_kmers(kmers)
+
+    def _construct_graph_from_string(self, string, k):
         graph = defaultdict(list)
         for i, kmer in enumerate_kmers(string, k):
+            if kmer[:-1] in self.nodes:
+                u = self.nodes[kmer[:-1]]
+            else:
+                u = DeBruijnNode(kmer[:-1])
+                self.nodes[kmer[:-1]] = u
+
+            if kmer[1:] in self.nodes:
+                v = self.nodes[kmer[1:]]
+            else:
+                v = DeBruijnNode(kmer[1:])
+                self.nodes[kmer[1:]] = v
+            graph[u].append(v)
+
+        return graph
+
+    def _construct_graph_from_kmers(self, kmers):
+        graph = defaultdict(list)
+        for kmer in kmers:
             if kmer[:-1] in self.nodes:
                 u = self.nodes[kmer[:-1]]
             else:
@@ -80,7 +109,7 @@ if __name__ == '__main__':
 
     # Print output
     with open('../../answers/rosalind_BA3D_out.txt', 'w') as outFile:
-        deBruijnGraph = DeBruijnGraph(string, k)
+        deBruijnGraph = DeBruijnGraph(string=string, k=k)
         for u in deBruijnGraph:
             print('%s -> %s' % (u.label, ','.join(map(lambda x: x.label, deBruijnGraph[u]))), file=outFile)
 
