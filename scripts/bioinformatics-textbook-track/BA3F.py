@@ -46,9 +46,8 @@ def find_cycle(graph, start):
 
     return cycle
 
-def find_eulerian_cycle(graph):
+def find_eulerian_cycle(graph, start=0):
     """Return an eulerian cycle of the graph."""
-    start = 0
     cycle = [start] + find_cycle(graph, start)
     updated = True
     while updated:
