@@ -12,21 +12,17 @@
 ##################################################
 
 # Your imports here
-
+from BA1E import enumerate_kmers
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA3A.txt') as inFile:
-        pass
+        k = int(inFile.readline())
+        text = inFile.readline().strip()
 
     # Print output
     with open('../../answers/rosalind_BA3A_out.txt', 'w') as outFile:
-        pass
+        for i, kmer in sorted(enumerate_kmers(text, k), key=lambda x: x[1]):
+            print(kmer, file=outFile)
 
