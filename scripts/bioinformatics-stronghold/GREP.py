@@ -17,21 +17,17 @@
 ##################################################
 
 # Your imports here
-
+from PCOV import DeBruijnGraph
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_GREP.txt') as inFile:
-        pass
+        kmers = [line.strip() for line in inFile.readlines()]
 
     # Print output
     with open('../../answers/rosalind_GREP_out.txt', 'w') as outFile:
-        pass
+        dbg = DeBruijnGraph(kmers=kmers)
+        reconstructed = dbg.reconstruct_all(cyclic=True, start=dbg.nodes[kmers[0][:-1]])
 
+        print('\n'.join([s for s in reconstructed if s.startswith(kmers[0])]), file=outFile)

@@ -19,6 +19,8 @@
 
 # Your imports here
 from collections import Counter, defaultdict
+from queue import Queue
+from copy import deepcopy
 
 # Your codes here
 def find_cycle(graph, start):
@@ -35,7 +37,7 @@ def find_cycle(graph, start):
     # Clean up nodes which have no edges.
     toRemove = [k for k, v in graph.items() if not v]
     for k in toRemove:
-        del graph[k]
+        graph.pop(k, None)
 
     return cycle
 
@@ -54,6 +56,34 @@ def find_eulerian_cycle(graph, start=0):
                 break
 
     return cycle
+
+def find_every_eulerian_cycle(graph, start=0):
+    cycles = []
+    find_every_eulerian_cycle_helper(graph, start, [], cycles, start)
+
+    return cycles
+
+def find_every_eulerian_cycle_helper(graph, curr, cycle, cycles, start):
+    """Return every eulerian cycles of the graph."""
+    # print(curr, start, len(graph), ' '.join(map(str, cycle[:] + [curr])))
+    # for u, vs in graph.items():
+        # print('%s -> %s' % (u, ','.join(map(str, vs))))
+    if len(graph) == 0 and curr == start:
+        cycles.append(cycle[:] + [curr])
+        # print('Genome %s reconstructed' % ' '.join(map(str, cycle[:] + [curr])))
+        return
+    # print(' '.join(map(str, cycle)))
+    children = graph[curr][:]
+    for i in range(len(children)):
+        graph[curr] = children[:i] + children[i+1:]
+        toRemove = [u for u in graph if not graph[u]]
+        for u in toRemove:
+            graph.pop(u, None)
+        find_every_eulerian_cycle_helper(graph, children[i], cycle[:] + [curr], cycles, start)
+        # print('Restored %s' % ','.join(map(str, children)))
+        graph[curr] = children[:]
+
+    return
 
 def add_imaginary_edge(graph):
     """Add imaginary edge (start, end), where start is the node
@@ -110,6 +140,12 @@ class DeBruijnNode:
         as a key of Counter object.
         """
         return hash(self.label)
+
+    def __eq__(self, other):
+        return self.label == other.label
+
+    def __str__(self):
+        return self.label
 
 class DeBruijnGraph:
     def __init__(self, string=None, kmers=None, k=None):
@@ -183,6 +219,31 @@ class DeBruijnGraph:
                 reconstructed.append(node.label[-1])
 
         return ''.join(reconstructed)
+
+    def reconstruct_all(self, cyclic=False, start=None):
+        """Reconstruct and return all possible original strings from de bruijn graph."""
+        graph = deepcopy(self.graph)
+        if cyclic:
+            if start is None:
+                paths = find_every_eulerian_cycle(graph, start=list(self.graph.keys())[0])
+            else:
+                paths = find_every_eulerian_cycle(graph, start=start)
+            originalStrings = []
+            for path in paths:
+                reconstructed = [path[0].label]
+                k = len(path[0].label)
+                for node in path[1:-k]:
+                    reconstructed.append(node.label[-1])
+
+                originalStrings.append(''.join(reconstructed))
+        else:
+            # TODO
+            path = find_eulerian_path(graph)
+            reconstructed = [path[0].label]
+            for node in path[1:]:
+                reconstructed.append(node.label[-1])
+
+        return list(set(originalStrings))
 
     def __getitem__(self, u):
         return self.graph[u]
