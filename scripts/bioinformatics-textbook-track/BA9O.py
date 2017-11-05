@@ -14,21 +14,21 @@
 ##################################################
 
 # Your imports here
-
+from BA1H import find_approximate
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_BA9O.txt') as inFile:
-        pass
+        text = inFile.readline().strip()
+        patterns = inFile.readline().strip().split()
+        d = int(inFile.readline())
 
     # Print output
     with open('../../answers/rosalind_BA9O_out.txt', 'w') as outFile:
-        pass
+        positions = []
+        for pattern in patterns:
+            positions.extend(find_approximate(text, pattern, d))
+
+        print(' '.join(map(str, list(sorted(positions)))), file=outFile)
 
