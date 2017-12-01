@@ -16,21 +16,17 @@
 ##################################################
 
 # Your imports here
-
+from collections import Counter
 
 # Your codes here
-
-
-
-
-
-
 if __name__ == '__main__':
     # Load the data.
     with open('../../datasets/rosalind_CONV.txt') as inFile:
-        pass
+        s1 = list(map(float, inFile.readline().split()))
+        s2 = list(map(float, inFile.readline().split()))
 
     # Print output
     with open('../../answers/rosalind_CONV_out.txt', 'w') as outFile:
-        pass
+        minkowskiDifference = Counter([round(abs(a - b), 5) for a in s1 for b in s2])
+        print('\n'.join(map(str, minkowskiDifference.most_common(1)[0][::-1])), file=outFile)
 
